@@ -1,0 +1,231 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "title": "Serviço de Entrega API",
+      "description": "API para gerenciar entregas",
+      "version": "1.0.0"
+    },
+    "paths": {
+      "/entregas": {
+        "post": {
+          "tags": ["Entregas"],
+          "summary": "Criar uma nova entrega",
+          "description": "Cria uma nova entrega no sistema",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateDeliveryRequest"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Entrega criada com sucesso",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/DeliveryResponse"
+                  }
+                }
+              }
+            },
+            "400": { "description": "Erro de requisição inválida" },
+            "500": { "description": "Erro interno do servidor" }
+          }
+        },
+        "get": {
+          "tags": ["Entregas"],
+          "summary": "Listar entregas",
+          "description": "Obtém uma lista de entregas filtradas por cidade (opcional)",
+          "parameters": [
+            {
+              "name": "city",
+              "in": "query",
+              "schema": {
+                "type": "string"
+              },
+              "description": "Nome da cidade para filtro (opcional)"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Lista de entregas",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/DeliveryResponse"
+                    }
+                  }
+                }
+              }
+            },
+            "500": { "description": "Erro interno do servidor" }
+          }
+        },
+        "delete": {
+          "tags": ["Entregas"],
+          "summary": "Excluir todas as entregas",
+          "description": "Remove todas as entregas do sistema",
+          "responses": {
+            "204": { "description": "Todas as entregas removidas com sucesso" },
+            "500": { "description": "Erro interno do servidor" }
+          }
+        }
+      },
+      "/entregas/{id}": {
+        "get": {
+          "tags": ["Entregas"],
+          "summary": "Obter detalhes de uma entrega",
+          "description": "Obtém detalhes de uma entrega específica",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": { "type": "integer" },
+              "description": "ID da entrega"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Detalhes da entrega",
+              "content": {
+                "application/json": {
+                  "schema": { "$ref": "#/components/schemas/DeliveryResponse" }
+                }
+              }
+            },
+            "404": { "description": "Entrega não encontrada" },
+            "500": { "description": "Erro interno do servidor" }
+          }
+        },
+        "put": {
+          "tags": ["Entregas"],
+          "summary": "Atualizar uma entrega",
+          "description": "Atualiza os dados de uma entrega específica",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": { "type": "integer" },
+              "description": "ID da entrega"
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/UpdateDeliveryRequest" }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Entrega atualizada com sucesso",
+              "content": {
+                "application/json": {
+                  "schema": { "$ref": "#/components/schemas/DeliveryResponse" }
+                }
+              }
+            },
+            "400": { "description": "Erro de requisição inválida" },
+            "404": { "description": "Entrega não encontrada" },
+            "500": { "description": "Erro interno do servidor" }
+          }
+        },
+        "delete": {
+          "tags": ["Entregas"],
+          "summary": "Excluir uma entrega",
+          "description": "Remove uma entrega específica do sistema",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": { "type": "integer" },
+              "description": "ID da entrega"
+            }
+          ],
+          "responses": {
+            "204": { "description": "Entrega removida com sucesso" },
+            "404": { "description": "Entrega não encontrada" },
+            "500": { "description": "Erro interno do servidor" }
+          }
+        }
+      }
+    },
+    "components": {
+      "schemas": {
+        "CreateDeliveryRequest": {
+          "type": "object",
+          "properties": {
+            "cliente": { "type": "string" },
+            "peso": { "type": "number" },
+            "endereco": { "type": "string" },
+            "logradouro": { "type": "string" },
+            "numero": { "type": "string" },
+            "bairro": { "type": "string" },
+            "complemento": { "type": "string" },
+            "cidade": { "type": "string" },
+            "estado": { "type": "string" },
+            "pais": { "type": "string" },
+            "latitude": { "type": "number" },
+            "longitude": { "type": "number" }
+          },
+          "required": [
+            "cliente", "peso", "endereco", "logradouro", "numero",
+            "bairro", "complemento", "cidade", "estado", "pais",
+            "latitude", "longitude"
+          ]
+        },
+        "UpdateDeliveryRequest": {
+          "type": "object",
+          "properties": {
+            "peso": { "type": "number" },
+            "endereco": { "type": "string" },
+            "logradouro": { "type": "string" },
+            "numero": { "type": "string" },
+            "bairro": { "type": "string" },
+            "complemento": { "type": "string" },
+            "cidade": { "type": "string" },
+            "estado": { "type": "string" },
+            "pais": { "type": "string" },
+            "latitude": { "type": "number" },
+            "longitude": { "type": "number" }
+          },
+          "required": [
+            "peso", "endereco", "logradouro", "numero",
+            "bairro", "complemento", "cidade", "estado",
+            "pais", "latitude", "longitude"
+          ]
+        },
+        "DeliveryResponse": {
+          "type": "object",
+          "properties": {
+            "id": { "type": "integer" },
+            "cliente": { "type": "string" },
+            "peso": { "type": "number" },
+            "endereco": { "type": "string" },
+            "logradouro": { "type": "string" },
+            "numero": { "type": "string" },
+            "bairro": { "type": "string" },
+            "complemento": { "type": "string" },
+            "cidade": { "type": "string" },
+            "estado": { "type": "string" },
+            "pais": { "type": "string" },
+            "latitude": { "type": "number" },
+            "longitude": { "type": "number" },
+            "data_inclusao": { "type": "string", "format": "date-time" },
+            "data_alteracao": { "type": "string", "format": "date-time" }
+          }
+        }
+      }
+    }
+  }
+  

@@ -1,0 +1,40 @@
+services:
+
+  api:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "8080:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+    env_file:
+      - .env
+
+
+  db:
+    image: mysql:latest
+    hostname: db
+    restart: unless-stopped
+    environment:
+      - MYSQL_ROOT_PASSWORD=admin
+      - MYSQL_DATABASE=delivery_service
+      - MYSQL_USER=admin
+      - MYSQL_PASSWORD=admin
+    ports:
+      - "3306:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      timeout: 2s
+      retries: 10
+
+  swagger-ui:
+    image: swaggerapi/swagger-ui:latest
+    ports:
+      - "8081:8080"
+    volumes:
+      - ./api/docs/swagger.json:/swagger.json:ro
+    environment:
+      - SWAGGER_JSON=/swagger.json
