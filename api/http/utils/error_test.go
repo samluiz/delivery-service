@@ -10,11 +10,14 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+// Struct utilizado para testar o validador
 type SampleStruct struct {
 	Name  string `validate:"required"`
 	Age   int    `validate:"gte=18"`
 	Email string `validate:"required,email"`
 }
+
+// Testes de validação de structs utilizando a função utilitária ValidateBody
 
 func TestValidateBody_ValidBody(t *testing.T) {
 	r := httptest.NewRequest("POST", "/test", nil)

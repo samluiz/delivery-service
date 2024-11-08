@@ -9,6 +9,8 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+// Testes do servidor HTTP para garantir que ele está configurado corretamente
+
 func TestNewServer(t *testing.T) {
 	db := &sql.DB{}
 	server := NewServer(db)

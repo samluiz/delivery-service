@@ -7,6 +7,8 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+// Testes de campos do request
+
 func TestCreateDeliveryRequest(t *testing.T) {
 	request := &CreateDeliveryRequest{
 		Cliente:     "Cliente 1",
@@ -64,6 +66,8 @@ func TestUpdateDeliveryRequest(t *testing.T) {
 	assert.Equal(t, request.Latitude, 51.5074)
 	assert.Equal(t, request.Longitude, -0.1278)
 }
+
+// Testes de conversão de structs (model -> response)
 
 func TestToDelivery(t *testing.T) {
 	now := time.Now()

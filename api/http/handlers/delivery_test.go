@@ -13,6 +13,8 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+// Mocks do service que o handler chama
+
 type MockDeliveryService struct {
 	CreateDeliveryFn      func(req *delivery.CreateDeliveryRequest) (*delivery.DeliveryResponse, error)
 	GetDeliveryFn         func(id int) (*delivery.DeliveryResponse, error)
@@ -45,6 +47,9 @@ func (m MockDeliveryService) DeleteDelivery(id int) error {
 func (m MockDeliveryService) DeleteAllDeliveries() error {
 	return m.DeleteAllDeliveriesFn()
 }
+
+// Testes dos handlers do servidor HTTP para garantir que as rotas estão respondendo corretamente
+// De acordo com o padrão REST
 
 func TestHandleCreateDelivery(t *testing.T) {
 	tests := []struct {
@@ -240,9 +245,9 @@ func TestHandleUpdateDelivery(t *testing.T) {
 			expectedStatus: http.StatusBadRequest,
 		},
 		{
-			name:           "delivery not found",
-			id:             "2",
-			requestBody:    &delivery.UpdateDeliveryRequest{
+			name: "delivery not found",
+			id:   "2",
+			requestBody: &delivery.UpdateDeliveryRequest{
 				Peso:        15.5,
 				Endereco:    "Rua B",
 				Logradouro:  "Logradouro A",
@@ -339,7 +344,6 @@ func TestHandleDeleteDelivery(t *testing.T) {
 		})
 	}
 }
-
 
 func TestHandleDeleteAllDeliveries(t *testing.T) {
 	deliveryServiceMock := MockDeliveryService{

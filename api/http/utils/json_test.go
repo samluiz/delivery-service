@@ -9,6 +9,8 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+// Teste da função NewJSONResponse que serializa e envia um objeto JSON para o cliente
+
 func TestNewJSONResponse(t *testing.T) {
 	data := map[string]string{"message": "success"}
 

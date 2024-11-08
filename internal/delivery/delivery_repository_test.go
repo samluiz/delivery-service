@@ -17,6 +17,8 @@ type MockDB struct {
 	mock.Mock
 }
 
+// Mocks de funções do pacote sql
+
 func (m *MockDB) BeginTx(ctx context.Context, opts *sql.TxOptions) (*sql.Tx, error) {
 	args := m.Called(ctx, opts)
 	return args.Get(0).(*sql.Tx), args.Error(1)
@@ -31,6 +33,8 @@ func (m *MockDB) ExecContext(ctx context.Context, query string, args ...interfac
 	call := m.Called(ctx, query, args)
 	return call.Get(0).(sql.Result), call.Error(1)
 }
+
+// Testes das consultas na tabela de entregas
 
 func TestCreateDeliveryRepository(t *testing.T) {
 	db, mock, err := sqlmock.New()
@@ -190,6 +194,8 @@ func TestDeleteAllDeliveriesRepository(t *testing.T) {
 	err = repo.DeleteAllDeliveries()
 	assert.NoError(t, err)
 }
+
+// Testes de erros nas consultas
 
 func TestCreateDelivery_Error(t *testing.T) {
 	db, mock, err := sqlmock.New()

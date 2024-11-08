@@ -11,6 +11,8 @@ type MockDeliveryRepository struct {
 	mock.Mock
 }
 
+// Mocks de funções do repositório que o service chama
+
 func (m *MockDeliveryRepository) CreateDelivery(request *CreateDeliveryRequest) (*DeliveryResponse, error) {
 	args := m.Called(request)
 	return args.Get(0).(*DeliveryResponse), args.Error(1)
@@ -45,6 +47,8 @@ func (m *MockDeliveryRepository) DeleteAllDeliveries() error {
 	args := m.Called()
 	return args.Error(0)
 }
+
+// Testes das funções do service que chamam o repositório
 
 func TestCreateDelivery(t *testing.T) {
 	mockRepo := new(MockDeliveryRepository)

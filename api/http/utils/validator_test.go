@@ -7,15 +7,19 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+// Struct utilizado para testar o validator
 type ValidatedUserStruct struct {
 	Name  string `validate:"required"`
 	Age   int    `validate:"gte=18"`
 	Email string `validate:"required,email"`
 }
 
+// Struct sem tags de validação
 type NoValidationStruct struct {
 	Name string
 }
+
+// Testes de validação de structs
 
 func TestXValidator_ValidStruct(t *testing.T) {
 	validator := XValidator{Validator: validator.New()}
